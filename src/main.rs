@@ -1,4 +1,5 @@
 mod color;
+mod vector;
 
 use color::{image_to_u8, Color};
 

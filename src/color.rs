@@ -1,3 +1,5 @@
+use std::ops::{Add, Div, Mul};
+
 #[derive(Debug, Copy, Clone)]
 pub struct Color {
     pub r: f32,
@@ -9,6 +11,60 @@ impl Color {
     #[inline]
     pub fn new(r: f32, g: f32, b: f32) -> Self {
         Self { r, g, b }
+    }
+
+    #[inline]
+    pub fn zero() -> Self {
+        Self {
+            r: 0.0,
+            g: 0.0,
+            b: 0.0,
+        }
+    }
+}
+
+impl Add<Color> for Color {
+    type Output = Color;
+
+    #[inline]
+    fn add(self, other: Color) -> Color {
+        Color::new(self.r + other.r, self.g + other.g, self.b + other.b)
+    }
+}
+
+impl Mul<f32> for Color {
+    type Output = Color;
+
+    #[inline]
+    fn mul(self, other: f32) -> Color {
+        Color::new(self.r * other, self.g * other, self.b * other)
+    }
+}
+
+impl Mul<Color> for f32 {
+    type Output = Color;
+
+    #[inline]
+    fn mul(self, other: Color) -> Color {
+        Color::new(self * other.r, self * other.g, self * other.b)
+    }
+}
+
+impl Mul<Color> for Color {
+    type Output = Color;
+
+    #[inline]
+    fn mul(self, other: Color) -> Color {
+        Color::new(self.r * other.r, self.g * other.g, self.b * other.b)
+    }
+}
+
+impl Div<f32> for Color {
+    type Output = Color;
+
+    #[inline]
+    fn div(self, other: f32) -> Color {
+        Color::new(self.r / other, self.g / other, self.b / other)
     }
 }
 
@@ -22,7 +78,6 @@ fn clampf32(x: f32, min: f32, max: f32) -> f32 {
     }
 }
 
-// Convert a Color image into u8 image (RGB ordered).
 pub fn image_to_u8(image: &[Color]) -> Vec<u8> {
     image
         .iter()
