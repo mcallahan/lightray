@@ -1,10 +1,12 @@
 # LightRay
 
+
 ## 1) Introduction
 
 LightRay is a physically based raytracer written in Rust.
 
 The starting point for LightRay is Peter Shirley's excellent book series starting with [Ray Tracing In One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html).  The project will then be extend towards photorealistic rendering given previous experience with such renderers.
+
 
 ## 2) Output an Image
 
@@ -30,6 +32,7 @@ There are a few differences between the LightRay implementation and the version 
 
 5) The f32 type was chosen over f64 primarily to enable future SSE optimization.  Use of f32 results in only a 5-10% faster render on the development machine.
 
+
 ## 3) Points, Vectors, and Colors
 
 The LightRay 0.3.0 release adds support for Vector3, Point3 and Color structs.  These are implemented similarly to [Chapter 3](https://raytracing.github.io/books/RayTracingInOneWeekend.html#thevec3class) except using Rust traits to support operations.  Implementing these for Chapter 3 does not change the generated image in any way.
@@ -48,6 +51,7 @@ There are some other design differences as well.
 
 2) Casts of Color/Point3/Vector3 to/from slices is not yet supported.  Realistically these operations will ultimately be needed in some way to import triangle meshes efficiently.
 
+
 ## 4) Rays, a Simple Camera, and Background
 
 The LightRay 0.4.0 release is a straightforward and rather uninteresting Rust implementation of [Ray Tracing In One Weekend Chapter 4](https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground).
@@ -60,3 +64,12 @@ The LightRay 0.4.0 release is a straightforward and rather uninteresting Rust im
 The LightRay 0.5.0 release implements a simple Sphere intersection test following the example in [Ray Tracing In One Weekend Chapter 5](https://raytracing.github.io/books/RayTracingInOneWeekend.html#addingasphere).  For simplicity the hit_sphere function was placed in main.rs as it will subsequently be moved around with the creation of a Hittable struct.  The code also passes the Ray around by borrow as it will be reused more and more.
 
 ![sphere image](images/image-0.5-sphere.png)
+
+
+## 6a) Surface Normals
+
+The LightRay 0.6.0 release implements [Ray Tracing In One Weekend Chapter 6]() but only up to the end of Chapter 6.2 with the simplified sphere intersection code.  The release was cut in this way as it provides a natural image verification step for the renderer.  Running the 0.6.0 release and viewing the result should match the image from the book.
+
+![normals image](images/image-0.6-normals.png)
+
+The primary difference between the reference implementation and LightRay is that hit_sphere returns an Option<f32> rather than a magic value for the no intersection case.

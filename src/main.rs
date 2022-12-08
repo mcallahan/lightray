@@ -10,18 +10,24 @@ use rayon::prelude::*;
 use std::io;
 use std::io::Write;
 
-fn hit_sphere(center: Point3, radius: f32, r: &Ray) -> bool {
+fn hit_sphere(center: Point3, radius: f32, r: &Ray) -> Option<f32> {
     let oc = r.origin - center;
     let a = r.direction.length_squared();
-    let b = 2.0 * dot(oc, r.direction);
-    let c = dot(oc, oc) - radius * radius;
-    let discriminant = b * b - 4.0 * a * c;
-    discriminant > 0.0
+    let half_b = dot(oc, r.direction);
+    let c = oc.length_squared() - radius * radius;
+    let discriminant = half_b * half_b - a * c;
+    if discriminant < 0.0 {
+        None
+    } else {
+        Some((-half_b - discriminant.sqrt()) / a)
+    }
 }
 
 fn ray_color(r: &Ray) -> Color {
-    if hit_sphere(Point3::new(0.0, 0.0, -1.0), 0.5, r) {
-        Color::new(1.0, 0.0, 0.0)
+    let center = Point3::new(0.0, 0.0, -1.0);
+    if let Some(t) = hit_sphere(center, 0.5, r) {
+        let normal = (r.at(t) - center).unit_vector();
+        0.5 * Color::new(normal.x + 1.0, normal.y + 1.0, normal.z + 1.0)
     } else {
         let unit_direction = r.direction.unit_vector();
         let t = 0.5 * (unit_direction.y + 1.0);
