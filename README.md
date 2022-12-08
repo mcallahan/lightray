@@ -1,6 +1,6 @@
 # LightRay
 
-## Introduction
+## 1) Introduction
 
 LightRay is a physically based raytracer written in Rust.
 
@@ -53,3 +53,10 @@ There are some other design differences as well.
 The LightRay 0.4.0 release is a straightforward and rather uninteresting Rust implementation of [Ray Tracing In One Weekend Chapter 4](https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground).
 
 ![sky image](images/image-0.4-sky.png)
+
+
+## 5) Adding a Sphere
+
+The LightRay 0.5.0 release implements a simple Sphere intersection test following the example in [Ray Tracing In One Weekend Chapter 5](https://raytracing.github.io/books/RayTracingInOneWeekend.html#addingasphere).  For simplicity the hit_sphere function was placed in main.rs as it will subsequently be moved around with the creation of a Hittable struct.  The code also passes the Ray around by borrow as it will be reused more and more.
+
+![sphere image](images/image-0.5-sphere.png)

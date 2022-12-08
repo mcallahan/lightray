@@ -4,16 +4,29 @@ mod vector;
 
 use color::{image_to_u8, Color};
 use ray::Ray;
-use vector::{Point3, Vector3};
+use vector::{dot, Point3, Vector3};
 
 use rayon::prelude::*;
 use std::io;
 use std::io::Write;
 
-fn ray_color(r: Ray) -> Color {
-    let unit_direction = r.direction.unit_vector();
-    let t = 0.5 * (unit_direction.y + 1.0);
-    (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
+fn hit_sphere(center: Point3, radius: f32, r: &Ray) -> bool {
+    let oc = r.origin - center;
+    let a = r.direction.length_squared();
+    let b = 2.0 * dot(oc, r.direction);
+    let c = dot(oc, oc) - radius * radius;
+    let discriminant = b * b - 4.0 * a * c;
+    discriminant > 0.0
+}
+
+fn ray_color(r: &Ray) -> Color {
+    if hit_sphere(Point3::new(0.0, 0.0, -1.0), 0.5, r) {
+        Color::new(1.0, 0.0, 0.0)
+    } else {
+        let unit_direction = r.direction.unit_vector();
+        let t = 0.5 * (unit_direction.y + 1.0);
+        (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
+    }
 }
 
 fn main() {
@@ -51,7 +64,7 @@ fn main() {
                 origin,
                 lower_left_corner + u * horizontal + v * vertical - origin,
             );
-            ray_color(r)
+            ray_color(&r)
         })
         .collect();
 
