@@ -47,3 +47,9 @@ There are some other design differences as well.
 1) The operation traits do not support borrow versions at this time and the structs support Copy.  Testing showed that #[inline] and Copy were about the same speed as explicitly borrowing everywhere while making the math operations less clunky.
 
 2) Casts of Color/Point3/Vector3 to/from slices is not yet supported.  Realistically these operations will ultimately be needed in some way to import triangle meshes efficiently.
+
+## 4) Rays, a Simple Camera, and Background
+
+The LightRay 0.4.0 release is a straightforward and rather uninteresting Rust implementation of [Ray Tracing In One Weekend Chapter 4](https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground).
+
+![sky image](images/image-0.4-sky.png)
