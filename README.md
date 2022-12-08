@@ -73,3 +73,12 @@ The LightRay 0.6.0 release implements [Ray Tracing In One Weekend Chapter 6]() b
 ![normals image](images/image-0.6-normals.png)
 
 The primary difference between the reference implementation and LightRay is that hit_sphere returns an Option<f32> rather than a magic value for the no intersection case.
+
+
+## 6b) Multiple Objects
+
+The LightRay 0.6.1 release implements multiple object support for the remainder of [Ray Tracing In One Weekend Chapter 6](https://raytracing.github.io/books/RayTracingInOneWeekend.html#surfacenormalsandmultipleobjects).  For Rust this is done by creating a Hittable trait along with a HittableList struct for handling multiple objects.  The hit function is then dynamically dispatched based upon the underlying type.
+
+To support parallelism the world objects are all wrapped with Arc for thread safe reference counting and the dispatch type is augmented with 'Sync + Send'.
+
+![list image](images/image-0.6-list.png)
