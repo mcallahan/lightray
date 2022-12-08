@@ -1,32 +1,21 @@
 mod color;
+mod hittable;
 mod ray;
 mod vector;
 
 use color::{image_to_u8, Color};
+use hittable::{Hittable, HittableList, Sphere};
 use ray::Ray;
 use vector::{dot, Point3, Vector3};
 
 use rayon::prelude::*;
 use std::io;
 use std::io::Write;
+use std::sync::Arc;
 
-fn hit_sphere(center: Point3, radius: f32, r: &Ray) -> Option<f32> {
-    let oc = r.origin - center;
-    let a = r.direction.length_squared();
-    let half_b = dot(oc, r.direction);
-    let c = oc.length_squared() - radius * radius;
-    let discriminant = half_b * half_b - a * c;
-    if discriminant < 0.0 {
-        None
-    } else {
-        Some((-half_b - discriminant.sqrt()) / a)
-    }
-}
-
-fn ray_color(r: &Ray) -> Color {
-    let center = Point3::new(0.0, 0.0, -1.0);
-    if let Some(t) = hit_sphere(center, 0.5, r) {
-        let normal = (r.at(t) - center).unit_vector();
+fn ray_color(r: &Ray, world: &Arc<dyn Hittable + Sync + Send>) -> Color {
+    if let Some(rec) = world.hit(r, 0.001, f32::INFINITY) {
+        let normal = rec.normal;
         0.5 * Color::new(normal.x + 1.0, normal.y + 1.0, normal.z + 1.0)
     } else {
         let unit_direction = r.direction.unit_vector();
@@ -40,6 +29,12 @@ fn main() {
     let image_width = 400;
     let image_height = 225;
     let aspect_ratio = image_width as f32 / image_height as f32;
+
+    // World
+    let mut world = HittableList::new();
+    world.add(Arc::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5)));
+    world.add(Arc::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)));
+    let world: Arc<dyn Hittable + Sync + Send> = Arc::new(world);
 
     // Camera
     let viewport_height = 2.0;
@@ -70,7 +65,7 @@ fn main() {
                 origin,
                 lower_left_corner + u * horizontal + v * vertical - origin,
             );
-            ray_color(&r)
+            ray_color(&r, &world)
         })
         .collect();
 
