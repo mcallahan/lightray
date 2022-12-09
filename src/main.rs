@@ -8,7 +8,7 @@ mod vector;
 use camera::Camera;
 use color::{image_to_u8, Color};
 use hittable::{Hittable, HittableList, Sphere};
-use random::random_f32_01;
+use random::{random_f32_01, random_in_hemisphere, random_unit_vector, random_in_unit_sphere};
 use ray::Ray;
 use vector::Point3;
 
@@ -17,10 +17,15 @@ use std::io;
 use std::io::Write;
 use std::sync::Arc;
 
-fn ray_color(r: &Ray, world: &Arc<dyn Hittable + Sync + Send>) -> Color {
-    if let Some(rec) = world.hit(r, 0.001, f32::INFINITY) {
-        let normal = rec.normal;
-        0.5 * Color::new(normal.x + 1.0, normal.y + 1.0, normal.z + 1.0)
+fn ray_color(r: &Ray, world: &Arc<dyn Hittable + Sync + Send>, depth: i32) -> Color {
+    if depth <= 0 {
+	Color::zero()
+    } else if let Some(rec) = world.hit(r, 0.001, f32::INFINITY) {
+        //let target = rec.point + rec.normal + random_in_unit_sphere();
+	//let target = rec.point + rec.normal + random_unit_vector();
+	let target = rec.point + random_in_hemisphere(rec.normal);
+	let newray = Ray::new(rec.point, target - rec.point);
+        0.5 * ray_color(&newray, world, depth-1)
     } else {
         let unit_direction = r.direction.unit_vector();
         let t = 0.5 * (unit_direction.y + 1.0);
@@ -34,6 +39,7 @@ fn main() {
     let image_height = 225;
     let aspect_ratio = image_width as f32 / image_height as f32;
     let samples_per_pixel = 100;
+    let max_depth = 50;
 
     // World
     let mut world = HittableList::new();
@@ -59,7 +65,7 @@ fn main() {
                 let u = (i + random_f32_01()) * rwidth;
                 let v = (j + random_f32_01()) * rheight;
                 let r = camera.get_ray(u, v);
-                acc + ray_color(&r, &world)
+                acc + ray_color(&r, &world, max_depth)
             }) / samples_per_pixel as f32
         })
         .collect();
