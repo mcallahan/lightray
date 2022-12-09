@@ -68,7 +68,7 @@ impl Div<f32> for Color {
     }
 }
 
-fn clampf32(x: f32, min: f32, max: f32) -> f32 {
+pub fn clampf32(x: f32, min: f32, max: f32) -> f32 {
     if x < min {
         min
     } else if x > max {

@@ -142,3 +142,8 @@ pub fn cross(v1: Vector3, v2: Vector3) -> Vector3 {
     let z = v1.x * v2.y - v1.y * v2.x;
     Vector3::new(x, y, z)
 }
+
+#[inline]
+pub fn reflect(v: Vector3, n: Vector3) -> Vector3 {
+    v - 2.0 * dot(v, n) * n
+}

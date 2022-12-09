@@ -1,3 +1,4 @@
+use crate::material::Material;
 use crate::ray::Ray;
 use crate::vector::{dot, Point3, Vector3};
 use std::sync::Arc;
@@ -7,6 +8,7 @@ pub struct HitRec {
     pub normal: Vector3,
     pub t: f32,
     pub front_face: bool,
+    pub material: Arc<dyn Material + Sync + Send>,
 }
 
 impl HitRec {
@@ -29,12 +31,17 @@ pub trait Hittable {
 pub struct Sphere {
     pub center: Point3,
     pub radius: f32,
+    pub material: Arc<dyn Material + Sync + Send>,
 }
 
 impl Sphere {
     #[inline]
-    pub fn new(center: Point3, radius: f32) -> Sphere {
-        Sphere { center, radius }
+    pub fn new(center: Point3, radius: f32, material: Arc<dyn Material + Sync + Send>) -> Sphere {
+        Sphere {
+            center,
+            radius,
+            material,
+        }
     }
 }
 
@@ -61,11 +68,13 @@ impl Hittable for Sphere {
         let point = r.at(t);
         let outie = (point - self.center) / self.radius;
         let (front_face, normal) = HitRec::get_face_normal(r, outie);
+        let material = self.material.clone();
         Some(HitRec {
             point,
             normal,
             t,
             front_face,
+            material,
         })
     }
 }

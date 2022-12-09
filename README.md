@@ -108,3 +108,19 @@ This version also hard codes a gamma of 2.0 when converting Color to u8 (in colo
 Again the sample image is not readily reproducible because the rays are randomly generated resulting in pixel noise that varies from run to run.
 
 ![lambertian image](images/image-0.8-lambertian.png]
+
+
+## 9) Metal
+
+The LightRay 0.9.0 release adds support for Metal light scattering and dispatchable materials.  The Metal and Material implementations correspond to [Ray Tracing In One Weekend Chapter 9](https://raytracing.github.io/books/RayTracingInOneWeekend.html#metal).  The main differences between LightRay and the book are as follows:
+
+1) LightRay returns the `scatter` result directly rather than via mutable function parameter.  It bundles the attenuation color and new scatter direction into a Option<tuple>.  It returns None if there is no scatter.
+
+2) The Material trait is wrapped in Arc for reference counting which is then explicitly cloned into the HitRec structure.  However a more performant implementation of the renderer should separate the world creation and rendering steps and then all rendering can be done via borrow with zero clones or copies of the world objects.  Likewise for the reference code which uses shared_ptr but does not need to reference count anything while rendering.
+
+3) The Lambertian struct in LightRay has switched to use the random_in_hemisphere method for computing scatter rays.  It also handles zero length scatter directions.
+
+![image metal](images/image-0.9-metal.png]
+
+With 100 samples per pixel the resulting image is noisy in such a way that it is difficult to reproduce exactly.
+
