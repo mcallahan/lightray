@@ -82,3 +82,18 @@ The LightRay 0.6.1 release implements multiple object support for the remainder 
 To support parallelism the world objects are all wrapped with Arc for thread safe reference counting and the dispatch type is augmented with 'Sync + Send'.
 
 ![list image](images/image-0.6-list.png)
+
+
+## 7) Antialiasing
+
+The LightRay 0.7.0 release mirrors [Ray Tracing In One Weekend Chapter 7](https://raytracing.github.io/books/RayTracingInOneWeekend.html#antialiasing) by adding support for antialiasing as well as a simple camera model.  There are a couple of differences between LightRay and the original:
+
+1) The LightRay Camera constructor takes in the aspect_ratio as an argument for matching with the image aspect ratio.
+
+2) Random sampling of the pixel is done in main.rs rather than in the camera code.
+
+The resulting image is similar to the previous image except smoothed.  Because this image is created by casting randomized rays it may have minor pixel differences from run to run.
+
+![smooth image](images/image-0.7-smooth.png)
+
+Note that uniform random sampling of each pixel converges more slowly than jittered sampling for just the one bounce edge antialiasing which generally looks good at around 16 samples.  The assumption here is that non-forking rays require many more samples to be taken to handle subsequent bounces anyway.

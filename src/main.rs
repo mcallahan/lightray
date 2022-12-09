@@ -1,12 +1,16 @@
+mod camera;
 mod color;
 mod hittable;
+mod random;
 mod ray;
 mod vector;
 
+use camera::Camera;
 use color::{image_to_u8, Color};
 use hittable::{Hittable, HittableList, Sphere};
+use random::random_f32_01;
 use ray::Ray;
-use vector::{dot, Point3, Vector3};
+use vector::Point3;
 
 use rayon::prelude::*;
 use std::io;
@@ -29,6 +33,7 @@ fn main() {
     let image_width = 400;
     let image_height = 225;
     let aspect_ratio = image_width as f32 / image_height as f32;
+    let samples_per_pixel = 100;
 
     // World
     let mut world = HittableList::new();
@@ -37,15 +42,7 @@ fn main() {
     let world: Arc<dyn Hittable + Sync + Send> = Arc::new(world);
 
     // Camera
-    let viewport_height = 2.0;
-    let viewport_width = aspect_ratio * viewport_height;
-    let focal_length = 1.0;
-
-    let origin = Point3::new(0.0, 0.0, 0.0);
-    let horizontal = Vector3::new(viewport_width, 0.0, 0.0);
-    let vertical = Vector3::new(0.0, viewport_height, 0.0);
-    let lower_left_corner =
-        origin - horizontal / 2.0 - vertical / 2.0 - Vector3::new(0.0, 0.0, focal_length);
+    let camera = Camera::new(aspect_ratio);
 
     // Used to convert from [0.0,1.0] to viewport(image) space.
     let rwidth = 1.0 / (image_width - 1) as f32;
@@ -58,14 +55,12 @@ fn main() {
             // Compute image coordinates in camera space.
             let i = (pidx % image_width) as f32;
             let j = (image_height - 1 - (pidx / image_width)) as f32;
-
-            let u = i * rwidth;
-            let v = j * rheight;
-            let r = Ray::new(
-                origin,
-                lower_left_corner + u * horizontal + v * vertical - origin,
-            );
-            ray_color(&r, &world)
+            (0..samples_per_pixel).fold(Color::zero(), |acc, _| {
+                let u = (i + random_f32_01()) * rwidth;
+                let v = (j + random_f32_01()) * rheight;
+                let r = camera.get_ray(u, v);
+                acc + ray_color(&r, &world)
+            }) / samples_per_pixel as f32
         })
         .collect();
 
