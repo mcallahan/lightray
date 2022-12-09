@@ -97,3 +97,14 @@ The resulting image is similar to the previous image except smoothed.  Because t
 ![smooth image](images/image-0.7-smooth.png)
 
 Note that uniform random sampling of each pixel converges more slowly than jittered sampling for just the one bounce edge antialiasing which generally looks good at around 16 samples.  The assumption here is that non-forking rays require many more samples to be taken to handle subsequent bounces anyway.
+
+
+## 8) Diffuse Materials
+
+The LightRay 0.8.0 release adds Lambertian light scattering as explained in [Ray Tracing In One Weekend Chapter 8](https://raytracing.github.io/books/RayTracingInOneWeekend.html#diffusematerials). LightRay will be using the corrected Lambertian formula with random_in_hemisphere.  The other two methods from the book are provided in the source code (commented out) for experimentation purposes.
+
+This version also hard codes a gamma of 2.0 when converting Color to u8 (in color.rs).
+
+Again the sample image is not readily reproducible because the rays are randomly generated resulting in pixel noise that varies from run to run.
+
+![lambertian image](images/image-0.8-lambertian.png]

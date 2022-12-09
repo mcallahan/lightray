@@ -82,9 +82,10 @@ pub fn image_to_u8(image: &[Color]) -> Vec<u8> {
     image
         .iter()
         .fold(Vec::with_capacity(image.len() * 3), |mut acc, c| {
-            let r = (clampf32(c.r, 0.0, 0.999) * 256.0) as u8;
-            let g = (clampf32(c.g, 0.0, 0.999) * 256.0) as u8;
-            let b = (clampf32(c.b, 0.0, 0.999) * 256.0) as u8;
+            // Gamma correct the color with gamma=2.0
+            let r = (clampf32(c.r.sqrt(), 0.0, 0.999) * 256.0) as u8;
+            let g = (clampf32(c.g.sqrt(), 0.0, 0.999) * 256.0) as u8;
+            let b = (clampf32(c.b.sqrt(), 0.0, 0.999) * 256.0) as u8;
             acc.push(r);
             acc.push(g);
             acc.push(b);
