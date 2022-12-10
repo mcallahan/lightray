@@ -123,3 +123,10 @@ The LightRay 0.9.0 release adds support for Metal light scattering and dispatcha
 ![image metal](images/image-0.9-metal.png]
 
 With 100 samples per pixel the resulting image is noisy in such a way that it is difficult to reproduce exactly.
+
+
+## 10a) Dielectrics (Refraction)
+
+The LightRay 0.10.0 release adds a simple refractive-only Dielectric material as well as a test case for using it.  It follows [Ray Tracing In One Weekend Chapter 10](https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics) up to the refractive-only image generated at the end of 10.2.
+
+![image refract](images/image-0.10-refract.png)
