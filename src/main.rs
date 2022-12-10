@@ -12,7 +12,7 @@ use hittable::{Hittable, HittableList, Sphere};
 use material::{Dielectric, Lambertian, Metal};
 use random::random_f32_01;
 use ray::Ray;
-use vector::Point3;
+use vector::{Point3, Vector3};
 
 use rayon::prelude::*;
 use std::io;
@@ -48,7 +48,7 @@ fn main() {
     let material_ground = Arc::new(Lambertian::new(Color::new(0.8, 0.8, 0.0)));
     let material_center = Arc::new(Lambertian::new(Color::new(0.1, 0.2, 0.5)));
     let material_left = Arc::new(Dielectric::new(1.5));
-    let material_right = Arc::new(Metal::new(Color::new(0.8, 0.6, 0.2), 1.0));
+    let material_right = Arc::new(Metal::new(Color::new(0.8, 0.6, 0.2), 0.0));
     world.add(Arc::new(Sphere::new(
         Point3::new(0.0, -100.5, -1.0),
         100.0,
@@ -77,7 +77,11 @@ fn main() {
     let world: Arc<dyn Hittable + Sync + Send> = Arc::new(world);
 
     // Camera
-    let camera = Camera::new(aspect_ratio);
+    let lookfrom = Point3::new(-2.0, 2.0, 1.0);
+    let lookat = Point3::new(0.0, 0.0, -1.0);
+    let vup = Vector3::new(0.0, 1.0, 0.0);
+    let fov = 20.0;
+    let camera = Camera::new(lookfrom, lookat, vup, fov, aspect_ratio);
 
     // Used to convert from [0.0,1.0] to viewport(image) space.
     let rwidth = 1.0 / (image_width - 1) as f32;

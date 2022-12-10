@@ -137,3 +137,10 @@ The LightRay 0.10.0 release adds a simple refractive-only Dielectric material as
 The LightRay 0.10.1 release adds the completed Dielectric material along with the final image setup for [Ray Tracing In One Weekend Chapter 10](https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics).
 
 ![image glass](images/image-0.10-glass.png)
+
+
+## 11) Positionable Camera
+
+The LightRay 0.11.0 release is a straightforward implementation of the positionable Camera struct from [Ray Tracing In One Weekend Chapter 11](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera).
+
+![image camera](images/image-0.11-camera.png)

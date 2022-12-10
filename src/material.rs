@@ -99,13 +99,12 @@ impl Material for Dielectric {
 
         let cannot_refract = ratio * sin_theta > 1.0;
 
-        let direction = if cannot_refract
-            || Dielectric::reflectance(cos_theta, ratio) > random_f32_01()
-        {
-            reflect(udir, rec.normal)
-        } else {
-            refract(udir, rec.normal, ratio)
-        };
+        let direction =
+            if cannot_refract || Dielectric::reflectance(cos_theta, ratio) > random_f32_01() {
+                reflect(udir, rec.normal)
+            } else {
+                refract(udir, rec.normal, ratio)
+            };
         Some((Color::new(1.0, 1.0, 1.0), Ray::new(rec.point, direction)))
     }
 }
