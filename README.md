@@ -151,3 +151,10 @@ The LightRay 0.11.0 release is a straightforward implementation of the positiona
 The LightRay 0.12.0 release implements camera focal distance blur from [Ray Tracing In One Weekend Chapter 12](https://raytracing.github.io/books/RayTracingInOneWeekend.html#defocusblur).
 
 ![image focus](images/image-0.12-focus.png)
+
+
+## 13) A Final Render
+
+The LightRay 0.13.0 release just adds the final scene and image from [Ray Tracing In One Weekend Chapter 13](https://raytracing.github.io/books/RayTracingInOneWeekend.html#wherenext?) which corresponds to the image on the book cover.  The scene consists of randomized spheres and varies from run to run.
+
+![image final](images/image-0.13-final.png)
