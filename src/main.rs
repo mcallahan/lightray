@@ -77,11 +77,21 @@ fn main() {
     let world: Arc<dyn Hittable + Sync + Send> = Arc::new(world);
 
     // Camera
-    let lookfrom = Point3::new(-2.0, 2.0, 1.0);
+    let lookfrom = Point3::new(3.0, 3.0, 2.0);
     let lookat = Point3::new(0.0, 0.0, -1.0);
     let vup = Vector3::new(0.0, 1.0, 0.0);
+    let dist_to_focus = (lookfrom - lookat).length();
+    let aperture = 2.0;
     let fov = 20.0;
-    let camera = Camera::new(lookfrom, lookat, vup, fov, aspect_ratio);
+    let camera = Camera::new(
+        lookfrom,
+        lookat,
+        vup,
+        fov,
+        aspect_ratio,
+        aperture,
+        dist_to_focus,
+    );
 
     // Used to convert from [0.0,1.0] to viewport(image) space.
     let rwidth = 1.0 / (image_width - 1) as f32;

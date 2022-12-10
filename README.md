@@ -144,3 +144,10 @@ The LightRay 0.10.1 release adds the completed Dielectric material along with th
 The LightRay 0.11.0 release is a straightforward implementation of the positionable Camera struct from [Ray Tracing In One Weekend Chapter 11](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera).
 
 ![image camera](images/image-0.11-camera.png)
+
+
+## 12) Defocus Blur
+
+The LightRay 0.12.0 release implements camera focal distance blur from [Ray Tracing In One Weekend Chapter 12](https://raytracing.github.io/books/RayTracingInOneWeekend.html#defocusblur).
+
+![image focus](images/image-0.12-focus.png)

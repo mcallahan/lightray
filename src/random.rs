@@ -46,6 +46,16 @@ pub fn random_in_unit_sphere() -> Vector3 {
 }
 
 #[inline]
+pub fn random_in_unit_disk() -> Vector3 {
+    loop {
+        let p = Vector3::new(random_f32(-1.0, 0.0), random_f32(-1.0, 0.0), 0.0);
+        if p.length_squared() <= 1.0 {
+            return p;
+        }
+    }
+}
+
+#[inline]
 pub fn random_unit_vector() -> Vector3 {
     random_in_unit_sphere().unit_vector()
 }
