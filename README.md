@@ -5,12 +5,12 @@
 
 LightRay is a physically based raytracer written in Rust.
 
-The starting point for LightRay is Peter Shirley's excellent book series starting with [Ray Tracing In One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html).  The project will then be extend towards photorealistic rendering given previous experience with such renderers.
+The starting point for LightRay is Peter Shirley's excellent book series starting with [_Ray Tracing In One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html).  The project will then be extend towards photorealistic rendering given previous experience with such renderers.
 
 
 ## 2) Output an Image
 
-The LightRay 0.2.0 release corresponds with [Chapter 2 of Ray Tracing In One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html#outputanimage) which creates a simple gradient image and writes it to stdout in the PNM image format.  The output for 0.2.0 is the same gradient image created by the original source.
+The LightRay 0.2.0 release corresponds with [_Ray Tracing In One Weekend_ Chapter 2](https://raytracing.github.io/books/RayTracingInOneWeekend.html#outputanimage) which creates a simple gradient image and writes it to stdout in the PNM image format.  The output for 0.2.0 is the same gradient image created by the original source.
 
 ```bash
 cargo run --release > current.pnm
@@ -35,7 +35,7 @@ There are a few differences between the LightRay implementation and the version 
 
 ## 3) Points, Vectors, and Colors
 
-The LightRay 0.3.0 release adds support for Vector3, Point3 and Color structs.  These are implemented similarly to [Chapter 3](https://raytracing.github.io/books/RayTracingInOneWeekend.html#thevec3class) except using Rust traits to support operations.  Implementing these for Chapter 3 does not change the generated image in any way.
+The LightRay 0.3.0 release adds support for Vector3, Point3 and Color structs.  These are implemented similarly to [_Ray Tracing In One Weekend_ Chapter 3](https://raytracing.github.io/books/RayTracingInOneWeekend.html#thevec3class) except using Rust traits to support operations.  Implementing these for Chapter 3 does not change the generated image in any way.
 
 Unlike the reference book the Vector3, Point3, and Color structs are distinct types.  There are several reasons for this.
 
@@ -54,21 +54,21 @@ There are some other design differences as well.
 
 ## 4) Rays, a Simple Camera, and Background
 
-The LightRay 0.4.0 release is a straightforward and rather uninteresting Rust implementation of [Ray Tracing In One Weekend Chapter 4](https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground).
+The LightRay 0.4.0 release is a straightforward and rather uninteresting Rust implementation of [_Ray Tracing In One Weekend_ Chapter 4](https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground).
 
 ![sky image](images/image-0.4-sky.png)
 
 
 ## 5) Adding a Sphere
 
-The LightRay 0.5.0 release implements a simple Sphere intersection test following the example in [Ray Tracing In One Weekend Chapter 5](https://raytracing.github.io/books/RayTracingInOneWeekend.html#addingasphere).  For simplicity the hit_sphere function was placed in main.rs as it will subsequently be moved around with the creation of a Hittable struct.  The code also passes the Ray around by borrow as it will be reused more and more.
+The LightRay 0.5.0 release implements a simple Sphere intersection test following the example in [_Ray Tracing In One Weekend_ Chapter 5](https://raytracing.github.io/books/RayTracingInOneWeekend.html#addingasphere).  For simplicity the hit_sphere function was placed in main.rs as it will subsequently be moved around with the creation of a Hittable struct.  The code also passes the Ray around by borrow as it will be reused more and more.
 
 ![sphere image](images/image-0.5-sphere.png)
 
 
 ## 6a) Surface Normals
 
-The LightRay 0.6.0 release implements [Ray Tracing In One Weekend Chapter 6]() but only up to the end of Chapter 6.2 with the simplified sphere intersection code.  The release was cut in this way as it provides a natural image verification step for the renderer.  Running the 0.6.0 release and viewing the result should match the image from the book.
+The LightRay 0.6.0 release implements [_Ray Tracing In One Weekend_ Chapter 6](https://raytracing.github.io/books/RayTracingInOneWeekend.html#surfacenormalsandmultipleobjects) but only up to the end of Chapter 6.2 with the simplified sphere intersection code.  The release was cut in this way as it provides a natural image verification step for the renderer.  Running the 0.6.0 release and viewing the result should match the image from the book.
 
 ![normals image](images/image-0.6-normals.png)
 
@@ -77,7 +77,7 @@ The primary difference between the reference implementation and LightRay is that
 
 ## 6b) Multiple Objects
 
-The LightRay 0.6.1 release implements multiple object support for the remainder of [Ray Tracing In One Weekend Chapter 6](https://raytracing.github.io/books/RayTracingInOneWeekend.html#surfacenormalsandmultipleobjects).  For Rust this is done by creating a Hittable trait along with a HittableList struct for handling multiple objects.  The hit function is then dynamically dispatched based upon the underlying type.
+The LightRay 0.6.1 release implements multiple object support for the remainder of [_Ray Tracing In One Weekend_ Chapter 6](https://raytracing.github.io/books/RayTracingInOneWeekend.html#surfacenormalsandmultipleobjects).  For Rust this is done by creating a Hittable trait along with a HittableList struct for handling multiple objects.  The hit function is then dynamically dispatched based upon the underlying type.
 
 To support parallelism the world objects are all wrapped with Arc for thread safe reference counting and the dispatch type is augmented with 'Sync + Send'.
 
@@ -86,7 +86,7 @@ To support parallelism the world objects are all wrapped with Arc for thread saf
 
 ## 7) Antialiasing
 
-The LightRay 0.7.0 release mirrors [Ray Tracing In One Weekend Chapter 7](https://raytracing.github.io/books/RayTracingInOneWeekend.html#antialiasing) by adding support for antialiasing as well as a simple camera model.  There are a couple of differences between LightRay and the original:
+The LightRay 0.7.0 release mirrors [_Ray Tracing In One Weekend_ Chapter 7](https://raytracing.github.io/books/RayTracingInOneWeekend.html#antialiasing) by adding support for antialiasing as well as a simple camera model.  There are a couple of differences between LightRay and the original:
 
 1) The LightRay Camera constructor takes in the aspect_ratio as an argument for matching with the image aspect ratio.
 
@@ -101,7 +101,7 @@ Note that uniform random sampling of each pixel converges more slowly than jitte
 
 ## 8) Diffuse Materials
 
-The LightRay 0.8.0 release adds Lambertian light scattering as explained in [Ray Tracing In One Weekend Chapter 8](https://raytracing.github.io/books/RayTracingInOneWeekend.html#diffusematerials). LightRay will be using the corrected Lambertian formula with random_in_hemisphere.  The other two methods from the book are provided in the source code (commented out) for experimentation purposes.
+The LightRay 0.8.0 release adds Lambertian light scattering as explained in [_Ray Tracing In One Weekend_ Chapter 8](https://raytracing.github.io/books/RayTracingInOneWeekend.html#diffusematerials). LightRay will be using the corrected Lambertian formula with random_in_hemisphere.  The other two methods from the book are provided in the source code (commented out) for experimentation purposes.
 
 This version also hard codes a gamma of 2.0 when converting Color to u8 (in color.rs).
 
@@ -112,7 +112,7 @@ Again the sample image is not readily reproducible because the rays are randomly
 
 ## 9) Metal
 
-The LightRay 0.9.0 release adds support for Metal light scattering and dispatchable materials.  The Metal and Material implementations correspond to [Ray Tracing In One Weekend Chapter 9](https://raytracing.github.io/books/RayTracingInOneWeekend.html#metal).  The main differences between LightRay and the book are as follows:
+The LightRay 0.9.0 release adds support for Metal light scattering and dispatchable materials.  The Metal and Material implementations correspond to [_Ray Tracing In One Weekend_ Chapter 9](https://raytracing.github.io/books/RayTracingInOneWeekend.html#metal).  The main differences between LightRay and the book are as follows:
 
 1) LightRay returns the `scatter` result directly rather than via mutable function parameter.  It bundles the attenuation color and new scatter direction into a Option<tuple>.  It returns None if there is no scatter.
 
@@ -127,34 +127,34 @@ With 100 samples per pixel the resulting image is noisy in such a way that it is
 
 ## 10a) Dielectrics (Refraction)
 
-The LightRay 0.10.0 release adds a simple refractive-only Dielectric material as well as a test case for using it.  It follows [Ray Tracing In One Weekend Chapter 10](https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics) up to the refractive-only image generated at the end of 10.2.
+The LightRay 0.10.0 release adds a simple refractive-only Dielectric material as well as a test case for using it.  It follows [_Ray Tracing In One Weekend_ Chapter 10](https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics) up to the refractive-only image generated at the end of 10.2.
 
 ![image refract](images/image-0.10-refract.png)
 
 
 ## 10b) Dielectrics (Snell's Law)
 
-The LightRay 0.10.1 release adds the completed Dielectric material along with the final image setup for [Ray Tracing In One Weekend Chapter 10](https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics).
+The LightRay 0.10.1 release adds the completed Dielectric material along with the final image setup for [_Ray Tracing In One Weekend_ Chapter 10](https://raytracing.github.io/books/RayTracingInOneWeekend.html#dielectrics).
 
 ![image glass](images/image-0.10-glass.png)
 
 
 ## 11) Positionable Camera
 
-The LightRay 0.11.0 release is a straightforward implementation of the positionable Camera struct from [Ray Tracing In One Weekend Chapter 11](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera).
+The LightRay 0.11.0 release is a straightforward implementation of the positionable Camera struct from [_Ray Tracing In One Weekend_ Chapter 11](https://raytracing.github.io/books/RayTracingInOneWeekend.html#positionablecamera).
 
 ![image camera](images/image-0.11-camera.png)
 
 
 ## 12) Defocus Blur
 
-The LightRay 0.12.0 release implements camera focal distance blur from [Ray Tracing In One Weekend Chapter 12](https://raytracing.github.io/books/RayTracingInOneWeekend.html#defocusblur).
+The LightRay 0.12.0 release implements camera focal distance blur from [_Ray Tracing In One Weekend_ Chapter 12](https://raytracing.github.io/books/RayTracingInOneWeekend.html#defocusblur).
 
 ![image focus](images/image-0.12-focus.png)
 
 
 ## 13) A Final Render
 
-The LightRay 0.13.0 release just adds the final scene and image from [Ray Tracing In One Weekend Chapter 13](https://raytracing.github.io/books/RayTracingInOneWeekend.html#wherenext?) which corresponds to the image on the book cover.  The scene consists of randomized spheres and varies from run to run.
+The LightRay 0.13.0 release just adds the final scene and image from [_Ray Tracing In One Weekend_ Chapter 13](https://raytracing.github.io/books/RayTracingInOneWeekend.html#wherenext?) which corresponds to the image on the book cover.  The scene consists of randomized spheres and varies from run to run.
 
 ![image final](images/image-0.13-final.png)
